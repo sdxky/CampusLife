@@ -5,7 +5,7 @@ import java.util.List;
 public class CampusLifeApp {
     public static void main(String[] args) {
 
-        Course oop = new Course("OOP", "Dr. Lee", 6);
+       /* Course oop = new Course("OOP", "Dr. Lee", 6);
         Course discrete = new Course("Discrete Math", "Dr. Smith", 5);
         Course english = new Course("English", "Prof. Brown", 3);
 
@@ -69,6 +69,76 @@ public class CampusLifeApp {
                 totalRemaining += task.getEstimatedHours();
             }
         }
-        System.out.println("New total estimated hours remaining: " + totalRemaining);
+        System.out.println("New total estimated hours remaining: " + totalRemaining);*/
+
+        Course oop = new Course("OOP", "Dr. Lee", 6);
+        Course discrete = new Course("Discrete Math", "Dr. Smith", 5);
+
+        List<PlanItem> planItems = new ArrayList<>();
+
+        planItems.add(new Assignment("Lab 4", oop, 3, 1));
+        planItems.add(new Assignment("Homework 6", discrete, 4, 4));
+        planItems.add(new ExamPreparation("OOP Midterm Study", oop, 6, 2));
+        planItems.add(new ClubEvent("Robotics Club Meeting", "Robotics Club", 2, 0));
+
+        System.out.println("=== ALL PLAN ITEMS ===");
+
+        for (PlanItem item : planItems) {
+            if (item.isUrgent()) {
+                System.out.println(item + "  <-- URGENT");
+            } else {
+                System.out.println(item);
+            }
+        }
+
+        int totalRemainingHours = 0;
+
+        for (PlanItem item : planItems) {
+            if (!item.isCompleted()) {
+                totalRemainingHours += item.getEstimatedHours();
+            }
+        }
+
+        System.out.println("\nTotal remaining hours: " + totalRemainingHours);
+
+        PlanItem mostUrgent = null;
+
+        for (PlanItem item : planItems) {
+            if (!item.isCompleted()) {
+                if (mostUrgent == null ||
+                        item.getDaysUntil() < mostUrgent.getDaysUntil()) {
+                    mostUrgent = item;
+                }
+            }
+        }
+
+        System.out.println("\nMost urgent activity:");
+        System.out.println(mostUrgent);
+
+        PlanItem completedItem = planItems.get(0);
+        completedItem.markCompleted();
+
+        System.out.println("\nMarked as completed:");
+        System.out.println(completedItem);
+
+        System.out.println("\n=== UPDATED PLAN ITEMS ===");
+
+        for (PlanItem item : planItems) {
+            if (item.isUrgent()) {
+                System.out.println(item + "  <-- URGENT");
+            } else {
+                System.out.println(item);
+            }
+        }
+
+        totalRemainingHours = 0;
+
+        for (PlanItem item : planItems) {
+            if (!item.isCompleted()) {
+                totalRemainingHours += item.getEstimatedHours();
+            }
+        }
+
+        System.out.println("\nUpdated total remaining hours: " + totalRemainingHours);
     }
 }
